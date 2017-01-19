@@ -1,3 +1,5 @@
+library(reshape2)
+library(dplyr)
 
 ## working folder -file  setting
 ##setwd(paste(getwd(),"gcd_week4_peer_run1",sep= "/"))
@@ -6,7 +8,7 @@ floc<-"https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%
 
 if (!file.exists(zipfilename)){
   fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip "
-  download.file(floc, zipfilename, method="curl")
+  download.file(floc, zipfilename)
 }
 
 ##Unzip
@@ -45,7 +47,7 @@ colnames(X_All)<- c("Subject","activity",featuresWanted.names)
 
 ##Converting Activity and subject code to valyes
 X_All$activity<- factor(X_All$activity, levels = activityLabels[,1], labels = activityLabels[,2])
-
-X_all.melted<- melt(X_all.,id=c("subject","activity"))
+X_All$subject <- as.factor(X_All$Subject)
+X_all.melted<- melt(X_All,id=c("Subject","activity"))
 
 
